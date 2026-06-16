@@ -1,150 +1,160 @@
 /**
  * Converts FRAGRANCE_DATA_REPOSITORY_*.xlsx → src/data/marketData.json
  * Run: node scripts/convert-market-data.cjs
- * Reads the newest FRAGRANCE_DATA_REPOSITORY_*.xlsx in the project root.
  */
-
 const fs   = require('fs')
 const path = require('path')
 const xlsx = require('xlsx')
 
-// Find newest matching file in project root
 const ROOT = path.join(__dirname, '..')
 const file = fs.readdirSync(ROOT)
   .filter(f => f.startsWith('FRAGRANCE_DATA_REPOSITORY') && f.endsWith('.xlsx'))
   .sort().pop()
-if (!file) { console.error('No FRAGRANCE_DATA_REPOSITORY_*.xlsx found in project root'); process.exit(1) }
+if (!file) { console.error('No FRAGRANCE_DATA_REPOSITORY_*.xlsx found'); process.exit(1) }
 
 const month = file.replace('FRAGRANCE_DATA_REPOSITORY_', '').replace('.xlsx', '').replace(/_/g, ' ')
-console.log('Reading:', file, '→ month:', month)
+console.log('Reading:', file, '→', month)
 
-const wb = xlsx.readFile(path.join(ROOT, file), { cellDates: false })
-const sheet = name => xlsx.utils.sheet_to_json(wb.Sheets[name] || {}, { header: 1, defval: '' })
+const wb   = xlsx.readFile(path.join(ROOT, file), { cellDates: false })
+const rows = name => xlsx.utils.sheet_to_json(wb.Sheets[name] || {}, { header: 1, defval: '' })
 
-const num  = v => typeof v === 'number' ? v : parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0
-const str  = v => fixEnc(String(v || '').trim())
-const fixEnc = s => s
+const n   = v => parseFloat(String(v).replace(/[^0-9.-]/g, '')) || 0
+const fix = s => String(s || '').trim()
   .replace(/Ã¨/g,'è').replace(/Ã©/g,'é').replace(/Ã /g,'à').replace(/Ã¢/g,'â')
   .replace(/Ã®/g,'î').replace(/Ã´/g,'ô').replace(/Ã»/g,'û').replace(/Ã§/g,'ç')
   .replace(/Ã«/g,'ë').replace(/Ã¯/g,'ï').replace(/Ã¹/g,'ù').replace(/Ã¼/g,'ü')
-const excelDate = serial => {
-  if (!serial || typeof serial !== 'number') return ''
-  try { return new Date((serial - 25569) * 86400 * 1000).toISOString().slice(0, 10) } catch { return '' }
+const excelDate = v => {
+  if (!v || typeof v !== 'number') return fix(v)
+  try { return new Date((v - 25569) * 86400000).toISOString().slice(0, 10) } catch { return '' }
 }
 
-// ── New Launches ─────────────────────────────────────────────────────────────
+// ── Report: col A rows 1-5 = top notes, col B rows 1-5 = trending notes ──────
+function parseReport() {
+  const r = rows('Report')
+  const topNotes      = r.slice(1, 6).map(row => fix(row[0])).filter(Boolean)
+  const trendingNotes = r.slice(1, 6).map(row => fix(row[1])).filter(Boolean)
+  return { topNotes, trendingNotes }
+}
+
+// ── New Launches: everything ──────────────────────────────────────────────────
 function parseLaunches() {
-  const rows = sheet('New Launches')
-  return rows.slice(1)
-    .filter(r => str(r[0]) && str(r[1]))
+  return rows('New Launches').slice(1)
+    .filter(r => fix(r[0]) && fix(r[1]))
     .map(r => ({
-      brand:    str(r[0]),
-      name:     str(r[1]),
-      notes:    str(r[2]),
-      profile:  str(r[3]),
-      category: str(r[4]),
-      url:      str(r[5]),
-      date:     excelDate(r[6]) || str(r[6]),
-      dupeBrands: str(r[12]),
-      dupedFrom:  str(r[8]),
+      brand:    fix(r[0]),
+      name:     fix(r[1]),
+      notes:    fix(r[2]),
+      profile:  fix(r[3]),
+      category: fix(r[4]),
+      url:      fix(r[5]),
+      date:     excelDate(r[6]),
+      dupedFrom: fix(r[8]),
     }))
 }
 
-// ── Amazon / eBay top sellers ────────────────────────────────────────────────
+// ── Most Search: 4 weekly blocks ──────────────────────────────────────────────
+// Week offsets (0-based): 0, 49, 77, 106
+// Each block: row 0 = header "TOP/RISING", rows 1-24 = data
+// Discard week if col A of first data row is empty
+function parseSearch() {
+  const r = rows('Most Search')
+  const OFFSETS = [0, 49, 77, 106]
+  const weeks = []
+
+  OFFSETS.forEach((start, wi) => {
+    const block = r.slice(start, start + 26)
+    if (!block.length) return
+    // First data row is index 1 of block (index 0 is header)
+    const firstData = block[1]
+    if (!fix(firstData?.[0])) return  // discard empty week
+
+    const top = [], rising = []
+    block.slice(1).forEach(row => {
+      if (fix(row[0]) && row[0] !== 'TOP')    top.push({ term: fix(row[0]), score: n(row[1]) })
+      if (fix(row[3]) && row[3] !== 'RISING') rising.push({ term: fix(row[3]), score: n(row[4]) })
+    })
+    if (top.length) weeks.push({ week: wi + 1, top, rising })
+  })
+  return weeks
+}
+
+// ── Sellers helper: both Amazon and eBay ──────────────────────────────────────
+// Week label rows (0-based): 1, 22, 43, 64 — followed by 20 data rows each
+// Discard week if col B (index 1) of first data row is empty
 function parseSellers(sheetName) {
-  const rows = sheet(sheetName)
-  // Data starts at row index 2 (0=headers, 1=week label)
-  return rows.slice(2)
-    .filter(r => r[0] !== '' && r[1] !== '')
-    .map(r => ({
-      rank:          num(r[0]),
-      name:          str(r[1]),
-      notes:         str(r[2]),
-      price:         num(r[3]),
-      rating:        str(r[4]),
-      reviews:       typeof r[5] === 'number' ? r[5] : parseInt(str(r[5]).replace(/,/g, '')) || 0,
-      lastWeekRank:  num(r[8]),
-      lastWeekName:  str(r[9]),
-      lastWeekNotes: str(r[10]),
-      lastWeekPrice: num(r[11]),
-    }))
-    .filter(r => r.rank > 0)
-}
+  const r = rows(sheetName)
+  // label row indices in 0-based (rows that contain "WEEK N" in col B)
+  const LABEL_ROWS = [1, 22, 43, 64]
+  const weeks = []
 
-// ── Top Notes ────────────────────────────────────────────────────────────────
-function parseTopNotes() {
-  const rows = sheet('Top Notes')
-  return rows.slice(1)
-    .filter(r => str(r[0]))
-    .map(r => ({
-      note:           str(r[0]),
-      currentFreq:    num(r[1]),
-      trendingNote:   str(r[3]),
-      trendingFreq:   num(r[4]),
-    }))
-}
+  LABEL_ROWS.forEach((labelRow, wi) => {
+    const dataStart = labelRow + 1          // first actual data row
+    const dataEnd   = dataStart + 20        // 20 products per week
+    const block     = r.slice(dataStart, dataEnd)
+    if (!block.length) return
+    if (!fix(block[0]?.[1])) return         // discard if col B empty
 
-// ── Most Searched ─────────────────────────────────────────────────────────────
-function parseMostSearched() {
-  const rows = sheet('Most Search')
-  // Row 0: ["TOP","","","RISING",...]
-  // Row 1+: data — TOP in col 0-1, RISING in col 3-4, second table in col 9-11 (top) and col 11-12 (rising)
-  const top = [], rising = []
-  rows.slice(1).forEach(r => {
-    const t = str(r[0]), ri = str(r[3])
-    if (t && t !== 'TOP')    top.push({ term: t, score: num(r[1]) })
-    if (ri && ri !== 'RISING') rising.push({ term: ri, score: num(r[4]) })
+    const sellers = block
+      .filter(row => fix(row[1]))           // col B = product name
+      .map(row => ({
+        rank:          n(row[0]),
+        name:          fix(row[1]),
+        notes:         fix(row[2]),
+        price:         n(row[3]),
+        rating:        fix(row[4]),
+        reviews:       typeof row[5] === 'number' ? row[5] : parseInt(fix(row[5]).replace(/,/g, '')) || 0,
+        prevRank:      n(row[8]),
+        prevName:      fix(row[9]),
+        prevNotes:     fix(row[10]),
+        prevPrice:     n(row[11]),
+      }))
+    if (sellers.length) weeks.push({ week: wi + 1, sellers })
   })
-  return { top: top.slice(0, 10), rising: rising.slice(0, 10) }
+  return weeks
 }
 
-// ── Fragrantica highest rated ─────────────────────────────────────────────────
+// ── Fragrantica: pick highest of C3/G3/K3/O3, extract that column pair ────────
+// C3 = row[2][2], G3 = row[2][6], K3 = row[2][10], O3 = row[2][14]
+// B:C=cols 1-2, F:G=cols 5-6, J:K=cols 9-10, N:O=cols 13-14
+// Extract rows 1-104 (0-based) of the winning pair
 function parseFragrantica() {
-  const rows = sheet('Fragantica highest rated')
-  // Row 0: ["Popular", "Rated"]
-  // Row 2+: col 0-1 = popular fragrances (name, brand), col 3 = rated (numbered)
-  const popular = [], rated = []
-  rows.slice(2).forEach(r => {
-    if (str(r[0])) popular.push({ name: str(r[0]), detail: str(r[1]) })
-    const ratedEntry = str(r[3])
-    if (ratedEntry) rated.push(ratedEntry.replace(/^\d+\.\s*/, ''))
-  })
-  return { popular: popular.slice(0, 10), rated: rated.slice(0, 10) }
+  const r = rows('Fragantica data')
+  const COLS = [
+    { valIdx: 2,  labelCol: 1,  countCol: 2  },  // C3 → B:C
+    { valIdx: 6,  labelCol: 5,  countCol: 6  },  // G3 → F:G
+    { valIdx: 10, labelCol: 9,  countCol: 10 },  // K3 → J:K
+    { valIdx: 14, labelCol: 13, countCol: 14 },  // O3 → N:O
+  ]
+  // row index 2 (0-based) = Excel row 3
+  const ref = r[2] || []
+  const values = COLS.map(c => n(ref[c.valIdx]))
+  const maxIdx = values.indexOf(Math.max(...values))
+  const { labelCol, countCol } = COLS[maxIdx]
+
+  return r.slice(1, 105)  // rows 1-104 (0-based) = Excel B2:O105
+    .map(row => ({ label: fix(row[labelCol]), count: n(row[countCol]) }))
+    .filter(d => d.label && d.label !== 'Gender' && d.count > 0)
 }
 
-// ── Report summary ────────────────────────────────────────────────────────────
-function parseSummary() {
-  const rows = sheet('Report')
-  // Row 1 has first values for each section
-  const topNotes    = rows.slice(1, 6).map(r => str(r[0])).filter(Boolean)
-  const trendNotes  = rows.slice(1, 6).map(r => str(r[1])).filter(Boolean)
-  const topProducts = rows.slice(1, 6).map(r => str(r[2])).filter(Boolean)
-  const searched    = rows.slice(1, 8).map(r => str(r[7])).filter(Boolean)
-  const prices      = rows.slice(1, 10).map(r => num(r[3])).filter(v => v > 0)
-  const avgPrice    = prices.length ? Math.round((prices.reduce((a,b) => a+b,0) / prices.length) * 100) / 100 : 0
-  return { topNotes, trendNotes, topProducts, searched, avgPrice }
-}
-
-// ── Build output ─────────────────────────────────────────────────────────────
-const output = {
+// ── Assemble ──────────────────────────────────────────────────────────────────
+const out = {
   month,
-  summary:       parseSummary(),
+  report:        parseReport(),
   launches:      parseLaunches(),
+  search:        parseSearch(),
   amazonSellers: parseSellers('Amazon top sellers'),
   ebaySellers:   parseSellers('Ebay top sellers'),
-  topNotes:      parseTopNotes(),
-  mostSearched:  parseMostSearched(),
   fragrantica:   parseFragrantica(),
 }
 
+fs.mkdirSync(path.join(ROOT, 'src', 'data'), { recursive: true })
 const outPath = path.join(ROOT, 'src', 'data', 'marketData.json')
-fs.writeFileSync(outPath, JSON.stringify(output, null, 2))
+fs.writeFileSync(outPath, JSON.stringify(out, null, 2))
 
-console.log(`✓ Written to ${outPath}`)
-console.log(`  Month: ${output.month}`)
-console.log(`  Launches: ${output.launches.length}`)
-console.log(`  Amazon sellers: ${output.amazonSellers.length}`)
-console.log(`  eBay sellers: ${output.ebaySellers.length}`)
-console.log(`  Top notes: ${output.topNotes.length}`)
-console.log(`  Most searched: top=${output.mostSearched.top.length}, rising=${output.mostSearched.rising.length}`)
-console.log(`  Fragrantica popular: ${output.fragrantica.popular.length}, rated: ${output.fragrantica.rated.length}`)
+console.log(`✓ ${outPath}`)
+console.log(`  Launches: ${out.launches.length}`)
+console.log(`  Search weeks: ${out.search.length} (${out.search.map(w=>'W'+w.week).join(', ')})`)
+console.log(`  Amazon weeks: ${out.amazonSellers.length} (${out.amazonSellers.map(w=>'W'+w.week).join(', ')})`)
+console.log(`  eBay weeks:   ${out.ebaySellers.length} (${out.ebaySellers.map(w=>'W'+w.week).join(', ')})`)
+console.log(`  Fragrantica:  ${out.fragrantica.length} entries`)
+console.log(`  Report notes: [${out.report.topNotes.join(', ')}]`)
