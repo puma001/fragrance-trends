@@ -85,12 +85,33 @@ async function fetchOAuth(clientId, clientSecret, sub, sort, limit) {
   }))
 }
 
+async function fetchPublicJSON(sub, sort, limit, after) {
+  const afterParam = after ? `&after=${after}` : ''
+  const url = `https://www.reddit.com/r/${sub}/${sort}.json?limit=${limit}&raw_json=1${afterParam}`
+  const res = await fetch(url, {
+    headers: { 'User-Agent': UA_BROWSER },
+  })
+  if (!res.ok) throw new Error(`Public JSON r/${sub}: ${res.status}`)
+  const json = await res.json()
+  const nextAfter = json.data?.after || null
+  const posts = (json.data?.children || []).map(c => ({
+    id: c.data.id, title: c.data.title,
+    selftext: (c.data.selftext || '').substring(0, 800),
+    author: c.data.author, permalink: c.data.permalink,
+    created_utc: c.data.created_utc, score: c.data.score,
+    num_comments: c.data.num_comments, subreddit: c.data.subreddit,
+    link_flair_text: c.data.link_flair_text || '', isComment: false,
+  }))
+  return { posts, after: nextAfter }
+}
+
 export default async function handler(req, res) {
-  const { sub, sort = 'hot', limit = 100, mode, postId } = req.query
+  const { sub, sort = 'hot', limit = 100, after, mode, postId } = req.query
   if (!sub) return res.status(400).json({ error: 'sub required' })
 
   const clientId = process.env.REDDIT_CLIENT_ID
   const clientSecret = process.env.REDDIT_CLIENT_SECRET
+  const safeLimit = Math.min(Number(limit), 100)
 
   res.setHeader('Content-Type', 'application/json')
   res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600')
@@ -98,15 +119,23 @@ export default async function handler(req, res) {
   try {
     if (mode === 'comments') {
       if (!postId) return res.status(400).json({ error: 'postId required for comments mode' })
-      const comments = await fetchCommentRSS(sub, postId, Math.min(Number(limit), 100))
+      const comments = await fetchCommentRSS(sub, postId, safeLimit)
       return res.json({ comments })
     }
 
-    const posts = clientId && clientSecret
-      ? await fetchOAuth(clientId, clientSecret, sub, sort, Math.min(Number(limit), 100))
-      : await fetchRSS(sub, sort, Math.min(Number(limit), 100))
+    if (clientId && clientSecret) {
+      const posts = await fetchOAuth(clientId, clientSecret, sub, sort, safeLimit)
+      return res.json({ posts, after: null, source: 'oauth' })
+    }
 
-    res.json({ posts, source: clientId ? 'oauth' : 'rss' })
+    // Try public JSON API first (works from Vercel), fall back to RSS
+    try {
+      const result = await fetchPublicJSON(sub, sort, safeLimit, after)
+      return res.json({ posts: result.posts, after: result.after, source: 'json' })
+    } catch {
+      const posts = await fetchRSS(sub, sort, safeLimit)
+      return res.json({ posts, after: null, source: 'rss' })
+    }
   } catch (e) {
     res.status(502).json({ error: e.message })
   }
