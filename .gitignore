@@ -1,0 +1,10 @@
+.vercel
+node_modules
+dist
+.env
+*.env.*
+vite.log
+vite-err.log
+pw-test.cjs
+pw-test.mjs
+screen*.png
