@@ -1,5 +1,6 @@
 const UA_BROWSER = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'
-const UA = 'fragrance-trends/1.0 (personal use, contact via reddit)'
+// Reddit requires: <platform>:<app>:<version> (by /u/<username>)
+const UA = 'web:fragrance-trends:v1.0 (by /u/puma001)'
 
 let tokenCache = { token: null, expiry: 0 }
 
@@ -85,24 +86,40 @@ async function fetchOAuth(clientId, clientSecret, sub, sort, limit) {
   }))
 }
 
-async function fetchPublicJSON(sub, sort, limit, after) {
-  const afterParam = after ? `&after=${after}` : ''
-  const url = `https://www.reddit.com/r/${sub}/${sort}.json?limit=${limit}&raw_json=1${afterParam}`
-  const res = await fetch(url, {
-    headers: { 'User-Agent': UA_BROWSER },
-  })
-  if (!res.ok) throw new Error(`Public JSON r/${sub}: ${res.status}`)
-  const json = await res.json()
-  const nextAfter = json.data?.after || null
-  const posts = (json.data?.children || []).map(c => ({
+function mapPost(c) {
+  return {
     id: c.data.id, title: c.data.title,
     selftext: (c.data.selftext || '').substring(0, 800),
     author: c.data.author, permalink: c.data.permalink,
     created_utc: c.data.created_utc, score: c.data.score,
     num_comments: c.data.num_comments, subreddit: c.data.subreddit,
     link_flair_text: c.data.link_flair_text || '', isComment: false,
-  }))
-  return { posts, after: nextAfter }
+  }
+}
+
+async function fetchJSON(sub, sort, limit, after) {
+  const afterParam = after ? `&after=${after}` : ''
+  // Try both www and old.reddit - different edge nodes, one may not be blocked
+  const endpoints = [
+    `https://www.reddit.com/r/${sub}/${sort}.json?limit=${limit}&raw_json=1${afterParam}`,
+    `https://old.reddit.com/r/${sub}/${sort}.json?limit=${limit}&raw_json=1${afterParam}`,
+  ]
+  let lastErr
+  for (const url of endpoints) {
+    try {
+      const res = await fetch(url, {
+        headers: { 'User-Agent': UA, 'Accept': 'application/json' },
+      })
+      if (!res.ok) { lastErr = new Error(`${res.status}`); continue }
+      const json = await res.json()
+      if (!json?.data?.children) continue
+      return {
+        posts: json.data.children.map(mapPost),
+        after: json.data.after || null,
+      }
+    } catch (e) { lastErr = e }
+  }
+  throw lastErr || new Error('All JSON endpoints failed')
 }
 
 export default async function handler(req, res) {
@@ -128,9 +145,9 @@ export default async function handler(req, res) {
       return res.json({ posts, after: null, source: 'oauth' })
     }
 
-    // Try public JSON API first (works from Vercel), fall back to RSS
+    // Try JSON API (www + old.reddit), fall back to RSS
     try {
-      const result = await fetchPublicJSON(sub, sort, safeLimit, after)
+      const result = await fetchJSON(sub, sort, safeLimit, after)
       return res.json({ posts: result.posts, after: result.after, source: 'json' })
     } catch {
       const posts = await fetchRSS(sub, sort, safeLimit)
