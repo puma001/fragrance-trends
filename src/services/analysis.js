@@ -20,6 +20,21 @@ const STOPWORDS = new Set([
   'always','never','often','sometimes','usually','already','probably',
   'different','similar','another','others','here','there','however','actually',
   'basically','literally','especially','definitely','probably','personally',
+  // common Reddit filler
+  'too','ask','tell','post','posts','comment','comments','question','questions',
+  'anyone','people','person','guys','everyone','somebody','nobody',
+  'yeah','yea','yep','nah','nope','hey','ok','okay','sure','maybe','kinda',
+  'sorta','gonna','gotta','wanna','imo','tbh','afaik','fwiw','iirc','lol',
+  'lmao','omg','wtf','imo','ngl','idk','etc','tho','tho','though','cause',
+  'because','since','while','when','where','just','also','even','still',
+  'already','always','never','often','sometimes','usually','let','know',
+  'think','say','said','says','told','ask','asked','want','wanted','needs',
+  'needed','make','made','made','take','took','give','gave','see','seen','saw',
+  'come','came','coming','going','went','gone','getting','got','get','put',
+  'set','find','found','found','keep','kept','start','started','stop','stopped',
+  'help','helped','show','showed','shown','try','tried','trying','seem','seems',
+  'feel','felt','feeling','looks','looking','looked','sounds','sounding',
+  'work','worked','working','works','use','used','using','used',
   // html/url artifacts from RSS content
   'https','http','www','com','reddit','submitted','link','comments','span',
   'strong','div','href','class','html','off','sc_off','sc_on','p','br','ul','li',
@@ -74,9 +89,10 @@ const FRAGRANCE_TERMS = [
 function tokenize(text) {
   return text
     .toLowerCase()
-    .replace(/[^a-z0-9\s'-]/g, ' ')
+    .replace(/'/g, '')          // strip apostrophes so it's→its, i'm→im, don't→dont
+    .replace(/[^a-z0-9\s-]/g, ' ')
     .split(/\s+/)
-    .map(w => w.replace(/^['-]+|['-]+$/g, ''))
+    .map(w => w.replace(/^-+|-+$/g, ''))
     .filter(w => w.length > 2 && !STOPWORDS.has(w));
 }
 
