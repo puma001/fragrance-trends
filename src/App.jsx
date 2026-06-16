@@ -4,7 +4,7 @@ import {
   extractKeywords, extractBrandMentions, getStats,
   extractBigrams, extractDescriptors, extractVolumeByDay, extractSentiment,
   extractBrandMentionsFromComments, extractWearingToday, mergeTexts, BRANDS,
-  extractDupePosts, getMostDupedBrands, getTopDupeBrands,
+  extractDupePosts, getMostDupedBrands, getTopDupeBrands, extractFragranceMentions,
 } from './services/analysis'
 import Header from './components/Header'
 import StatsBar from './components/StatsBar'
@@ -18,6 +18,7 @@ import TopComments from './components/TopComments'
 import PostFeed from './components/PostFeed'
 import TikTokSection from './components/TikTokSection'
 import DupeSection from './components/DupeSection'
+import FragranceMentions from './components/FragranceMentions'
 import { fetchTikTokData } from './services/tiktok'
 
 export default function App() {
@@ -148,9 +149,10 @@ export default function App() {
   const wearingToday = extractWearingToday(comments)
   const stats = getStats(posts)
 
-  const dupePosts       = extractDupePosts(posts)
-  const mostDupedBrands = getMostDupedBrands(dupePosts)
-  const topDupeBrands   = getTopDupeBrands(dupePosts)
+  const dupePosts         = extractDupePosts(posts)
+  const mostDupedBrands   = getMostDupedBrands(dupePosts)
+  const topDupeBrands     = getTopDupeBrands(dupePosts)
+  const fragranceMentions = extractFragranceMentions(allItems, 20)
 
   const filteredPosts = selectedBrand
     ? (() => {
@@ -207,6 +209,7 @@ export default function App() {
                     onExport={handleExportBrands}
                   />
                 </div>
+                <FragranceMentions fragrances={fragranceMentions} />
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <ThemeChart keywords={keywords} />
                   <DescriptorChart descriptors={descriptors} />

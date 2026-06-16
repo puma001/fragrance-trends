@@ -234,6 +234,137 @@ export function extractSentiment(posts) {
   };
 }
 
+export const FRAGRANCES = [
+  // Creed
+  { name: 'Aventus', terms: ['aventus'] },
+  { name: 'Green Irish Tweed', terms: ['green irish tweed'] },
+  { name: 'Silver Mountain Water', terms: ['silver mountain water'] },
+  { name: 'Viking (Creed)', terms: ['creed viking', 'viking creed'] },
+  { name: 'Millesime Imperial', terms: ['millesime imperial'] },
+  // Tom Ford
+  { name: 'Tobacco Vanille', terms: ['tobacco vanille'] },
+  { name: 'Oud Wood', terms: ['oud wood'] },
+  { name: 'Lost Cherry', terms: ['lost cherry'] },
+  { name: 'Black Orchid', terms: ['black orchid'] },
+  { name: 'Fucking Fabulous', terms: ['fucking fabulous'] },
+  { name: 'Soleil Blanc', terms: ['soleil blanc'] },
+  { name: 'Neroli Portofino', terms: ['neroli portofino'] },
+  { name: 'Rose Prick', terms: ['rose prick'] },
+  // MFK / Kurkdjian
+  { name: 'Baccarat Rouge 540', terms: ['baccarat rouge', 'br540', 'br 540'] },
+  { name: 'Oud Satin Mood', terms: ['oud satin mood'] },
+  { name: 'Grand Soir', terms: ['grand soir'] },
+  { name: 'Gentle Fluidity', terms: ['gentle fluidity'] },
+  { name: 'Aqua Universalis', terms: ['aqua universalis'] },
+  // Chanel
+  { name: 'Bleu de Chanel', terms: ['bleu de chanel'] },
+  { name: 'Chanel No. 5', terms: ['chanel no 5', 'chanel no5'] },
+  { name: 'Coco Mademoiselle', terms: ['coco mademoiselle'] },
+  { name: 'Chance (Chanel)', terms: ['chanel chance', 'chance eau tendre', 'chance eau fraiche'] },
+  { name: 'Gabrielle (Chanel)', terms: ['gabrielle chanel', 'chanel gabrielle'] },
+  // Dior
+  { name: 'Sauvage', terms: ['sauvage'] },
+  { name: "J'adore", terms: ['jadore', "j'adore"] },
+  { name: 'Miss Dior', terms: ['miss dior'] },
+  { name: 'Fahrenheit', terms: ['fahrenheit dior', 'dior fahrenheit'] },
+  { name: 'Dior Homme', terms: ['dior homme'] },
+  // YSL
+  { name: 'Black Opium', terms: ['black opium'] },
+  { name: 'Libre (YSL)', terms: ['ysl libre', 'libre edp', 'libre ysl', 'libre parfum'] },
+  { name: 'MYSLF', terms: ['myslf'] },
+  { name: "La Nuit de L'Homme", terms: ["la nuit de l'homme", 'la nuit de lhomme'] },
+  // Armani
+  { name: 'Acqua di Giò', terms: ['acqua di gio', 'acqua di giò'] },
+  { name: 'Stronger With You', terms: ['stronger with you'] },
+  { name: 'My Way (Armani)', terms: ['my way armani', 'armani my way'] },
+  { name: 'Armani Code', terms: ['armani code', 'code absolu'] },
+  // Parfums de Marly
+  { name: 'Layton', terms: ['layton'] },
+  { name: 'Pegasus', terms: ['pegasus'] },
+  { name: 'Herod', terms: ['herod'] },
+  { name: 'Delina', terms: ['delina'] },
+  { name: 'Percival', terms: ['percival'] },
+  { name: 'Oriana', terms: ['oriana marly', 'marly oriana'] },
+  // Maison Margiela Replica
+  { name: 'Jazz Club', terms: ['jazz club'] },
+  { name: 'Beach Walk', terms: ['beach walk'] },
+  { name: 'By the Fireplace', terms: ['by the fireplace'] },
+  { name: 'Lazy Sunday Morning', terms: ['lazy sunday morning', 'lazy sunday'] },
+  { name: 'Flower Market', terms: ['flower market replica'] },
+  // Byredo
+  { name: "Bal d'Afrique", terms: ["bal d'afrique", 'bal dafrique'] },
+  { name: 'Mojave Ghost', terms: ['mojave ghost'] },
+  { name: 'Gypsy Water', terms: ['gypsy water'] },
+  // Jo Malone
+  { name: 'Wood Sage & Sea Salt', terms: ['wood sage sea salt', 'wood sage'] },
+  { name: 'Peony & Blush Suede', terms: ['peony blush', 'peony suede'] },
+  // Amouage
+  { name: 'Interlude (Amouage)', terms: ['interlude man', 'amouage interlude'] },
+  { name: 'Reflection (Amouage)', terms: ['amouage reflection'] },
+  { name: 'Jubilation (Amouage)', terms: ['amouage jubilation'] },
+  // Nishane
+  { name: 'Hacivat', terms: ['hacivat'] },
+  { name: 'Wulong Cha', terms: ['wulong cha'] },
+  { name: 'Fan Your Flames', terms: ['fan your flames'] },
+  // Initio
+  { name: 'Oud for Greatness', terms: ['oud for greatness'] },
+  { name: 'Side Effect (Initio)', terms: ['initio side effect', 'side effect initio'] },
+  // Xerjoff
+  { name: 'Naxos', terms: ['naxos'] },
+  { name: 'Alexandria II', terms: ['alexandria ii', 'xerjoff alexandria'] },
+  // Lattafa
+  { name: 'Khamrah', terms: ['khamrah'] },
+  { name: 'Badee Al Oud', terms: ['badee al oud', "bade'e al oud"] },
+  // Armaf
+  { name: 'Club de Nuit Intense', terms: ['club de nuit intense', 'cdni', 'cdn intense'] },
+  // Paco Rabanne
+  { name: '1 Million', terms: ['1 million paco', 'paco 1 million', 'un million'] },
+  { name: 'Invictus', terms: ['invictus'] },
+  // Viktor & Rolf
+  { name: 'Flowerbomb', terms: ['flowerbomb'] },
+  // Mugler
+  { name: 'Angel (Mugler)', terms: ['mugler angel', 'angel mugler'] },
+  { name: 'Alien (Mugler)', terms: ['mugler alien', 'alien mugler'] },
+  // Versace
+  { name: 'Eros (Versace)', terms: ['versace eros', 'eros versace', 'eros edt', 'eros edp'] },
+  { name: 'Dylan Blue', terms: ['dylan blue'] },
+  // Davidoff
+  { name: 'Cool Water', terms: ['cool water'] },
+  // Mancera
+  { name: 'Cedrat Boisé', terms: ['cedrat boise'] },
+  { name: 'Red Tobacco', terms: ['red tobacco'] },
+  // Montale
+  { name: 'Intense Café', terms: ['intense cafe', 'intense café'] },
+  // Mont Blanc
+  { name: 'Explorer (Mont Blanc)', terms: ['mont blanc explorer', 'montblanc explorer'] },
+  { name: 'Legend (Mont Blanc)', terms: ['mont blanc legend', 'montblanc legend'] },
+  // Guerlain
+  { name: 'Shalimar', terms: ['shalimar'] },
+  // Dolce & Gabbana
+  { name: 'Light Blue (D&G)', terms: ['light blue dolce', 'd&g light blue', 'dolce light blue'] },
+  { name: 'The One (D&G)', terms: ['the one dolce', 'd&g the one', 'dolce the one'] },
+  // Diptyque
+  { name: 'Philosykos', terms: ['philosykos'] },
+  { name: 'Do Son', terms: ['do son diptyque'] },
+]
+
+export function extractFragranceMentions(posts, topN = 20) {
+  const counts = {}
+  for (const post of posts) {
+    const text = `${post.title} ${post.selftext || ''}`.toLowerCase()
+    for (const frag of FRAGRANCES) {
+      if (frag.terms.some(t => text.includes(t))) {
+        counts[frag.name] = (counts[frag.name] || 0) + 1
+      }
+    }
+  }
+  return Object.entries(counts)
+    .filter(([, v]) => v > 0)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, topN)
+    .map(([fragrance, count]) => ({ fragrance, count }))
+}
+
 export function getStats(posts) {
   if (!posts.length) return { total: 0, avgScore: 0, topPost: null, topSubreddit: null, hasScores: false };
 
