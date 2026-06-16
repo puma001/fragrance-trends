@@ -18,7 +18,10 @@ export default function Header({ sort, loading, onSort, onRefresh, activeTab, on
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-4">
           <div>
-            <h1 className="text-xl font-bold text-gray-900 tracking-tight">Fragrance Trends</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-xl font-bold text-gray-900 tracking-tight">Fragrance Trends</h1>
+              <span className="text-xs font-semibold text-white bg-gray-900 px-2 py-0.5 rounded-full tracking-wide">Slate Brands</span>
+            </div>
             <p className="text-xs text-gray-500 mt-0.5">
               {activeTab === 'reddit' ? 'r/fragrance · r/cologne · r/perfume'
                 : activeTab === 'tiktok' ? '#fragrancetok · #perfumetok'

@@ -255,6 +255,10 @@ export default function App() {
         {activeTab === 'brand' && <BrandDashboard />}
 
       </main>
+      <footer className="max-w-7xl mx-auto px-6 py-6 mt-4 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">
+        <span>© {new Date().getFullYear()} <span className="font-semibold text-gray-600">Slate Brands</span> — Internal Use Only</span>
+        <span>Fragrance Trends Dashboard</span>
+      </footer>
     </div>
   )
 }
