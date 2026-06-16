@@ -20,6 +20,7 @@ import TikTokSection from './components/TikTokSection'
 import DupeSection from './components/DupeSection'
 import FragranceMentions from './components/FragranceMentions'
 import BrandDashboard from './components/BrandDashboard'
+import MarketInsights from './components/MarketInsights'
 import { fetchTikTokData } from './services/tiktok'
 
 export default function App() {
@@ -252,7 +253,8 @@ export default function App() {
           />
         )}
 
-        {activeTab === 'brand' && <BrandDashboard />}
+        {activeTab === 'brand'  && <BrandDashboard />}
+        {activeTab === 'market' && <MarketInsights />}
 
       </main>
       <footer className="max-w-7xl mx-auto px-6 py-6 mt-4 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">

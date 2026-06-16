@@ -7,9 +7,10 @@ const SORT_OPTIONS = [
 ]
 
 const TABS = [
-  { value: 'reddit', label: 'Reddit' },
-  { value: 'tiktok', label: 'TikTok' },
-  { value: 'brand',  label: 'Brand' },
+  { value: 'reddit',  label: 'Reddit' },
+  { value: 'tiktok',  label: 'TikTok' },
+  { value: 'brand',   label: 'Brand' },
+  { value: 'market',  label: 'Market' },
 ]
 
 export default function Header({ sort, loading, onSort, onRefresh, activeTab, onTabChange, tiktokLoading, onRetryTikTok }) {
@@ -25,7 +26,8 @@ export default function Header({ sort, loading, onSort, onRefresh, activeTab, on
             <p className="text-xs text-gray-500 mt-0.5">
               {activeTab === 'reddit' ? 'r/fragrance · r/cologne · r/perfume'
                 : activeTab === 'tiktok' ? '#fragrancetok · #perfumetok'
-                : 'AL · BP · MEB · MT'}
+                : activeTab === 'brand' ? 'AL · BP · MEB · MT'
+                : 'Launches · Sellers · Notes · Search'}
             </p>
           </div>
 
