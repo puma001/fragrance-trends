@@ -19,6 +19,7 @@ import PostFeed from './components/PostFeed'
 import TikTokSection from './components/TikTokSection'
 import DupeSection from './components/DupeSection'
 import FragranceMentions from './components/FragranceMentions'
+import BrandDashboard from './components/BrandDashboard'
 import { fetchTikTokData } from './services/tiktok'
 
 export default function App() {
@@ -250,6 +251,8 @@ export default function App() {
             pending={tiktokPending}
           />
         )}
+
+        {activeTab === 'brand' && <BrandDashboard />}
 
       </main>
     </div>
