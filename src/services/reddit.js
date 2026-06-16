@@ -46,6 +46,7 @@ export async function fetchAllPosts(sort = 'hot', signal) {
     all.push(...batch)
     if (i < SUBREDDITS.length - 1) await delay(2000)
   }
+  // dedupe by id
   const seen = new Set()
   return all.filter(p => {
     if (seen.has(p.id)) return false
@@ -54,6 +55,7 @@ export async function fetchAllPosts(sort = 'hot', signal) {
   })
 }
 
+// Finds the daily SOTD / Discussion threads and fetches their comments
 export async function fetchSOTDComments(posts, signal) {
   const SOTD_PATTERN = /\b(sotd|scent of the day|daily discussion|advice)\b/i
   const threads = posts
