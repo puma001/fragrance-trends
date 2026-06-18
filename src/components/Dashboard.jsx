@@ -38,10 +38,14 @@ export default function Dashboard({ brands, fragranceMentions, stats, redditLoad
   const market = allMarketData[0]
   const { month, report, search, amazonSellers, ebaySellers, analysis } = market
 
-  const amazon3 = (amazonSellers[0]?.sellers || []).slice(0, 3)
-  const ebay3   = (ebaySellers[0]?.sellers  || []).slice(0, 3)
+  const latestAmazon = amazonSellers[amazonSellers.length - 1]
+  const latestEbay   = ebaySellers[ebaySellers.length - 1]
+  const latestSearch = search[search.length - 1]
 
-  const topSearch = (search[0]?.top || [])
+  const amazon3 = (latestAmazon?.sellers || []).slice(0, 3)
+  const ebay3   = (latestEbay?.sellers   || []).slice(0, 3)
+
+  const topSearch = (latestSearch?.top || [])
     .filter(t => !SEARCH_IGNORE.has(t.term.toLowerCase()))
     .slice(0, 5)
 
@@ -79,11 +83,11 @@ export default function Dashboard({ brands, fragranceMentions, stats, redditLoad
       {/* Retail snapshot */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <SectionCard title="Amazon Top Sellers" linkLabel="Full sellers" onLink={() => onTabChange('market')}>
-          <p className="text-xs text-gray-400 mb-2">{month} · Week 1</p>
+          <p className="text-xs text-gray-400 mb-2">{month} · Week {latestAmazon?.week}</p>
           {amazon3.map(s => <SellerRow key={s.rank} {...s} />)}
         </SectionCard>
         <SectionCard title="eBay Top Sellers" linkLabel="Full sellers" onLink={() => onTabChange('market')}>
-          <p className="text-xs text-gray-400 mb-2">{month} · Week 1</p>
+          <p className="text-xs text-gray-400 mb-2">{month} · Week {latestEbay?.week}</p>
           {ebay3.map(s => <SellerRow key={s.rank} {...s} />)}
         </SectionCard>
       </div>
@@ -110,7 +114,7 @@ export default function Dashboard({ brands, fragranceMentions, stats, redditLoad
         </SectionCard>
 
         <SectionCard title="Top Search Terms" linkLabel="Market tab" onLink={() => onTabChange('market')}>
-          <p className="text-xs text-gray-400 mb-3">{month} · Week 1</p>
+          <p className="text-xs text-gray-400 mb-3">{month} · Week {latestSearch?.week}</p>
           <div className="space-y-2">
             {topSearch.map((t, i) => (
               <div key={i} className="flex items-center gap-2">
