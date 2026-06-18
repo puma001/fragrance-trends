@@ -6,6 +6,7 @@ import MovementTracker from './MovementTracker'
 import SellerHighlights from './SellerHighlights'
 
 const CATS = ['All','Niche','Designer','Indie','Mainstream','Arabian','Celebrity','Dupe/Inspired']
+const SEARCH_IGNORE = new Set(['man', 'eau de parfum', 'eau de perfum', 'odor', 'odour'])
 const COLORS = ['#7c3aed','#8b5cf6','#a78bfa','#6d28d9','#5b21b6','#4c1d95','#b45309','#d97706','#f59e0b','#fbbf24']
 
 function RankBadge({ current, prev }) {
@@ -68,6 +69,7 @@ export default function MarketInsights() {
   const pageLaunches = filteredLaunches.slice(page * PER_PAGE, (page + 1) * PER_PAGE)
   const totalPages   = Math.ceil(filteredLaunches.length / PER_PAGE)
 
+  const filterSearch = terms => (terms || []).filter(t => !SEARCH_IGNORE.has(t.term.toLowerCase()))
   const currentSearch = search[searchWk]  || search[0]
   const currentAmazon = amazonSellers[sellWk]  || amazonSellers[0]
   const currentEbay   = ebaySellers[sellWk]    || ebaySellers[0]
@@ -201,10 +203,10 @@ export default function MarketInsights() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Top</p>
-              {(currentSearch?.top || []).map((t, i) => (
+              {filterSearch(currentSearch?.top).map((t, i, arr) => (
                 <div key={i} className="flex items-center gap-2 mb-1.5">
                   <div className="h-1.5 bg-violet-400 rounded-full shrink-0"
-                    style={{ width: Math.round((t.score / (currentSearch.top[0]?.score || 1)) * 60) + 'px' }} />
+                    style={{ width: Math.round((t.score / (arr[0]?.score || 1)) * 60) + 'px' }} />
                   <span className="text-xs text-gray-700 truncate">{t.term}</span>
                   <span className="text-xs text-gray-400 ml-auto shrink-0">{t.score}</span>
                 </div>
@@ -212,7 +214,7 @@ export default function MarketInsights() {
             </div>
             <div>
               <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">Rising</p>
-              {(currentSearch?.rising || []).map((t, i) => (
+              {filterSearch(currentSearch?.rising).map((t, i) => (
                 <div key={i} className="flex items-center gap-1.5 mb-1.5">
                   <TrendingUp size={10} className="text-emerald-500 shrink-0"/>
                   <span className="text-xs text-gray-700 truncate">{t.term}</span>
