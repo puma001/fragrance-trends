@@ -7,10 +7,12 @@ const SORT_OPTIONS = [
 ]
 
 const TABS = [
-  { value: 'reddit',  label: 'Reddit' },
-  { value: 'tiktok',  label: 'TikTok' },
-  { value: 'brand',   label: 'Brand' },
-  { value: 'market',  label: 'Market' },
+  { value: 'overview',   label: 'Overview' },
+  { value: 'reddit',     label: 'Reddit' },
+  { value: 'tiktok',     label: 'TikTok' },
+  { value: 'brand',      label: 'Brand' },
+  { value: 'market',     label: 'Market' },
+  { value: 'instagram',  label: 'Instagram' },
 ]
 
 export default function Header({ sort, loading, onSort, onRefresh, activeTab, onTabChange, tiktokLoading, onRetryTikTok }) {
@@ -24,10 +26,12 @@ export default function Header({ sort, loading, onSort, onRefresh, activeTab, on
               <span className="text-xs font-semibold text-white bg-gray-900 px-2 py-0.5 rounded-full tracking-wide">Slate Brands</span>
             </div>
             <p className="text-xs text-gray-500 mt-0.5">
-              {activeTab === 'reddit' ? 'r/fragrance · r/cologne · r/perfume'
-                : activeTab === 'tiktok' ? '#fragrancetok · #perfumetok'
-                : activeTab === 'brand' ? 'AL · BP · MEB · MT'
-                : 'Launches · Sellers · Notes · Search'}
+              {activeTab === 'overview'   ? 'Monthly summary across all channels'
+                : activeTab === 'reddit'  ? 'r/fragrance · r/cologne · r/perfume'
+                : activeTab === 'tiktok'  ? '#fragrancetok · #perfumetok'
+                : activeTab === 'brand'   ? 'AL · BP · MEB · MT'
+                : activeTab === 'market'  ? 'Launches · Sellers · Notes · Search'
+                : 'Instagram · Coming soon'}
             </p>
           </div>
 

@@ -21,6 +21,8 @@ import DupeSection from './components/DupeSection'
 import FragranceMentions from './components/FragranceMentions'
 import BrandDashboard from './components/BrandDashboard'
 import MarketInsights from './components/MarketInsights'
+import Dashboard from './components/Dashboard'
+import InstagramSection from './components/InstagramSection'
 import { fetchTikTokData } from './services/tiktok'
 
 export default function App() {
@@ -29,7 +31,7 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [commentsLoading, setCommentsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [activeTab, setActiveTab] = useState('reddit')
+  const [activeTab, setActiveTab] = useState('overview')
   const [sort, setSort] = useState('hot')
   const [selectedBrand, setSelectedBrand] = useState(null)
 
@@ -253,8 +255,18 @@ export default function App() {
           />
         )}
 
-        {activeTab === 'brand'  && <BrandDashboard />}
-        {activeTab === 'market' && <MarketInsights />}
+        {activeTab === 'overview' && (
+          <Dashboard
+            brands={brands}
+            fragranceMentions={fragranceMentions}
+            stats={stats}
+            redditLoading={loading}
+            onTabChange={setActiveTab}
+          />
+        )}
+        {activeTab === 'brand'     && <BrandDashboard />}
+        {activeTab === 'market'    && <MarketInsights />}
+        {activeTab === 'instagram' && <InstagramSection />}
 
       </main>
       <footer className="max-w-7xl mx-auto px-6 py-6 mt-4 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">
