@@ -206,10 +206,21 @@ async function main() {
   out.analysis = await generateAnalysis(out)
 
   fs.mkdirSync(path.join(ROOT, 'src', 'data'), { recursive: true })
+
+  // Write current month file
   const outPath = path.join(ROOT, 'src', 'data', 'marketData.json')
-  fs.writeFileSync(outPath, JSON.stringify(out, null, 2))
+  fs.writeFileSync(outPath, JSON.stringify(out, null, 2), 'utf8')
+
+  // Update allMarketData.json — upsert by month, newest first
+  const allPath = path.join(ROOT, 'src', 'data', 'allMarketData.json')
+  let all = []
+  try { all = JSON.parse(fs.readFileSync(allPath, 'utf8')) } catch { /* first run */ }
+  all = all.filter(m => m.month !== out.month)  // remove existing entry for this month
+  all.unshift(out)                               // prepend newest
+  fs.writeFileSync(allPath, JSON.stringify(all, null, 2), 'utf8')
 
   console.log(`✓ ${outPath}`)
+  console.log(`✓ ${allPath} (${all.length} month${all.length !== 1 ? 's' : ''}: ${all.map(m => m.month).join(', ')})`)
   console.log(`  Launches: ${out.launches.length}`)
   console.log(`  Search weeks: ${out.search.length} (${out.search.map(w=>'W'+w.week).join(', ')})`)
   console.log(`  Amazon weeks: ${out.amazonSellers.length} (${out.amazonSellers.map(w=>'W'+w.week).join(', ')})`)
