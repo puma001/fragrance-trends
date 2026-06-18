@@ -1,12 +1,18 @@
 import { TrendingUp, TrendingDown } from 'lucide-react'
 
+// Normalize names so minor punctuation/truncation differences still match:
+// "Sol de Janeiro Hair & Body Perfume Mist (Cheirosa 62)" and
+// "Sol de Janeiro Hair & Body Perfume Mist" both become the same 35-char key.
+const normKey = name =>
+  name.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim().slice(0, 35)
+
 function buildMovement(weeksData) {
   const map = new Map()
   const allWeeks = weeksData.map(w => w.week)
 
   weeksData.forEach(({ week, sellers }) => {
     sellers.slice(0, 10).forEach(s => {
-      const key = s.name.slice(0, 60).toLowerCase()
+      const key = normKey(s.name)
       if (!map.has(key)) map.set(key, { name: s.name, notes: s.notes, ranks: {} })
       map.get(key).ranks[week] = s.rank
     })

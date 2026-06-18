@@ -1,9 +1,12 @@
 import { TrendingUp, TrendingDown, Sparkles, LogOut } from 'lucide-react'
 
+const normKey = name =>
+  name.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim().slice(0, 35)
+
 export default function SellerHighlights({ current, prev }) {
   if (!current) return null
 
-  const key = s => s.name.slice(0, 55).toLowerCase()
+  const key = s => normKey(s.name)
 
   // New entrants: in current top 10 but prevRank === 0 (wasn't ranked before)
   const newEntries = current.sellers.slice(0, 10).filter(s => !s.prevRank)
