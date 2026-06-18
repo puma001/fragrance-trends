@@ -158,7 +158,7 @@ export default function Dashboard({ brands, fragranceMentions, stats, redditLoad
                   <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                     <div className="h-full bg-amber-400 rounded-full" style={{ width: `${Math.round((f.count / topFragrances[0].count) * 100)}%` }} />
                   </div>
-                  <span className="text-xs font-medium text-gray-700 w-24 truncate">{f.name}</span>
+                  <span className="text-xs font-medium text-gray-700 w-24 truncate">{f.fragrance}</span>
                   <span className="text-xs text-gray-400">{f.count}</span>
                 </div>
               ))}
