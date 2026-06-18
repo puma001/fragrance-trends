@@ -136,25 +136,86 @@ function parseFragrantica() {
     .filter(d => d.label && d.label !== 'Gender' && d.count > 0)
 }
 
-// ── Assemble ──────────────────────────────────────────────────────────────────
-const out = {
-  month,
-  report:        parseReport(),
-  launches:      parseLaunches(),
-  search:        parseSearch(),
-  amazonSellers: parseSellers('Amazon top sellers'),
-  ebaySellers:   parseSellers('Ebay top sellers'),
-  fragrantica:   parseFragrantica(),
+// ── AI Analysis ───────────────────────────────────────────────────────────────
+async function generateAnalysis(data) {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.log('  ℹ ANTHROPIC_API_KEY not set — skipping AI analysis')
+    return null
+  }
+  try {
+    const { default: Anthropic } = await import('@anthropic-ai/sdk')
+    const client = new Anthropic()
+
+    const catCounts = {}
+    data.launches.forEach(l => { catCounts[l.category || 'Other'] = (catCounts[l.category || 'Other'] || 0) + 1 })
+    const catSummary = Object.entries(catCounts).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${k}: ${v}`).join(', ')
+    const risingTerms = data.search.flatMap(w => w.rising.map(r => r.term)).filter(Boolean).slice(0, 6)
+    const topAmazon  = (data.amazonSellers[0]?.sellers || []).slice(0, 3).map(s => s.name).join(', ')
+    const topEbay    = (data.ebaySellers[0]?.sellers  || []).slice(0, 3).map(s => s.name).join(', ')
+
+    const prompt = `You are writing a brief internal intelligence digest for a fragrance brand's research team.
+
+Market data for ${data.month}:
+- Top notes in top sellers: ${data.report.topNotes.join(', ')}
+- Trending notes in new launches: ${data.report.trendingNotes.join(', ')}
+- New launches: ${data.launches.length} total — ${catSummary}
+- Amazon top 3: ${topAmazon}
+- eBay top 3: ${topEbay}
+- Rising search terms: ${risingTerms.join(', ') || 'none this month'}
+
+Write exactly 3 sentences: (1) what's dominating retail sales this month, (2) what's emerging in new launches and search, (3) one actionable insight for the brand team. Be specific and factual. No markdown, no headers.`
+
+    const response = await client.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 300,
+      messages: [{ role: 'user', content: prompt }],
+    })
+
+    const digest = response.content[0].text.trim()
+
+    // Extract 3-5 signal keywords from the digest for pill display
+    const signalPrompt = `From this analysis, extract 3-5 short keyword signals (2-3 words max each, e.g. "vanilla dominates", "niche rising", "gourmand trend"). Return only a JSON array of strings, nothing else.\n\n${digest}`
+    const sigResponse = await client.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 80,
+      messages: [{ role: 'user', content: signalPrompt }],
+    })
+    let signals = []
+    try { signals = JSON.parse(sigResponse.content[0].text.trim()) } catch { /* ignore */ }
+
+    console.log('  ✓ AI analysis generated')
+    return { digest, signals }
+  } catch (err) {
+    console.warn(`  ⚠ AI analysis failed: ${err.message}`)
+    return null
+  }
 }
 
-fs.mkdirSync(path.join(ROOT, 'src', 'data'), { recursive: true })
-const outPath = path.join(ROOT, 'src', 'data', 'marketData.json')
-fs.writeFileSync(outPath, JSON.stringify(out, null, 2))
+// ── Assemble & write ──────────────────────────────────────────────────────────
+async function main() {
+  const out = {
+    month,
+    report:        parseReport(),
+    launches:      parseLaunches(),
+    search:        parseSearch(),
+    amazonSellers: parseSellers('Amazon top sellers'),
+    ebaySellers:   parseSellers('Ebay top sellers'),
+    fragrantica:   parseFragrantica(),
+  }
 
-console.log(`✓ ${outPath}`)
-console.log(`  Launches: ${out.launches.length}`)
-console.log(`  Search weeks: ${out.search.length} (${out.search.map(w=>'W'+w.week).join(', ')})`)
-console.log(`  Amazon weeks: ${out.amazonSellers.length} (${out.amazonSellers.map(w=>'W'+w.week).join(', ')})`)
-console.log(`  eBay weeks:   ${out.ebaySellers.length} (${out.ebaySellers.map(w=>'W'+w.week).join(', ')})`)
-console.log(`  Fragrantica:  ${out.fragrantica.length} entries`)
-console.log(`  Report notes: [${out.report.topNotes.join(', ')}]`)
+  out.analysis = await generateAnalysis(out)
+
+  fs.mkdirSync(path.join(ROOT, 'src', 'data'), { recursive: true })
+  const outPath = path.join(ROOT, 'src', 'data', 'marketData.json')
+  fs.writeFileSync(outPath, JSON.stringify(out, null, 2))
+
+  console.log(`✓ ${outPath}`)
+  console.log(`  Launches: ${out.launches.length}`)
+  console.log(`  Search weeks: ${out.search.length} (${out.search.map(w=>'W'+w.week).join(', ')})`)
+  console.log(`  Amazon weeks: ${out.amazonSellers.length} (${out.amazonSellers.map(w=>'W'+w.week).join(', ')})`)
+  console.log(`  eBay weeks:   ${out.ebaySellers.length} (${out.ebaySellers.map(w=>'W'+w.week).join(', ')})`)
+  console.log(`  Fragrantica:  ${out.fragrantica.length} entries`)
+  console.log(`  Report notes: [${out.report.topNotes.join(', ')}]`)
+}
+
+main().catch(err => { console.error(err); process.exit(1) })
