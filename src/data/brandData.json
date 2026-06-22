@@ -2,8 +2,10 @@
   "brands": [
     "AL",
     "BP",
+    "IC",
     "MEB",
-    "MT"
+    "MT",
+    "TA"
   ],
   "summary": {
     "AL": {
@@ -40,6 +42,23 @@
       "avgCustomerSpend": 72.01,
       "returningCustomerRate": 4.75
     },
+    "IC": {
+      "netSales": 20091.39,
+      "grossSales": 24534.59,
+      "orderCount": 701,
+      "avgOrderValue": 28.66,
+      "newOrders": 863,
+      "returningOrders": 367,
+      "totalSessions": 0,
+      "totalVisitors": 0,
+      "conversionRate": 0,
+      "totalCustomers": 0,
+      "newCustomers": 0,
+      "returningCustomers": 0,
+      "subscribedCustomers": 0,
+      "avgCustomerSpend": 0,
+      "returningCustomerRate": 0
+    },
     "MEB": {
       "netSales": 154310.79,
       "grossSales": 159235.83,
@@ -73,6 +92,23 @@
       "subscribedCustomers": 1721,
       "avgCustomerSpend": 67.33,
       "returningCustomerRate": 23.51
+    },
+    "TA": {
+      "netSales": 88994.64,
+      "grossSales": 100361.93,
+      "orderCount": 616,
+      "avgOrderValue": 144.47,
+      "newOrders": 991,
+      "returningOrders": 379,
+      "totalSessions": 0,
+      "totalVisitors": 0,
+      "conversionRate": 0,
+      "totalCustomers": 0,
+      "newCustomers": 0,
+      "returningCustomers": 0,
+      "subscribedCustomers": 0,
+      "avgCustomerSpend": 0,
+      "returningCustomerRate": 0
     }
   },
   "byDay": {
@@ -14820,6 +14856,7 @@
         "avgOrderValue": 53.292
       }
     ],
+    "IC": [],
     "MEB": [
       {
         "day": "2023-11-01",
@@ -29563,7 +29600,8 @@
         "returningCustomers": 0,
         "avgOrderValue": 40.99
       }
-    ]
+    ],
+    "TA": []
   },
   "products": {
     "AL": [
@@ -29765,6 +29803,7 @@
         "itemsSold": 1570
       }
     ],
+    "IC": [],
     "MEB": [
       {
         "id": "7418811285582.0",
@@ -30002,6 +30041,7 @@
         "returningRate": 17.65,
         "itemsSold": 17
       }
-    ]
+    ],
+    "TA": []
   }
 }
