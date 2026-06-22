@@ -4,6 +4,7 @@ import {
   ResponsiveContainer, CartesianGrid, Cell,
 } from 'recharts'
 import brandData from '../data/brandData.json'
+import emailData from '../data/emailData.json'
 
 const RANGES = [
   { label: '30D', days: 30 },
@@ -49,14 +50,19 @@ function CustomTooltip({ active, payload, label }) {
   )
 }
 
+// All unique brands across Shopify + email data
+const ALL_BRANDS = [...new Set([...brandData.brands, ...emailData.brands])].sort()
+
 export default function BrandDashboard() {
-  const [brand, setBrand] = useState(brandData.brands[0])
+  const [brand, setBrand] = useState(ALL_BRANDS[0])
   const [range, setRange] = useState(90)
   const [chartMode, setChartMode] = useState('revenue')
+  const [emailTab, setEmailTab] = useState('campaigns')
 
   const summary  = brandData.summary[brand]
   const allDays  = brandData.byDay[brand] || []
   const products = (brandData.products[brand] || []).slice(0, 10)
+  const email    = emailData.email[brand] || {}
 
   const days = useMemo(() => {
     if (!range) return allDays
@@ -104,7 +110,7 @@ export default function BrandDashboard() {
       {/* Brand tabs */}
       <div className="flex items-center gap-3 flex-wrap">
         <div className="flex rounded-lg border border-gray-200 overflow-hidden text-sm">
-          {brandData.brands.map(b => (
+          {ALL_BRANDS.map(b => (
             <button
               key={b}
               onClick={() => setBrand(b)}
@@ -114,22 +120,24 @@ export default function BrandDashboard() {
             </button>
           ))}
         </div>
-        <span className="text-xs text-gray-400">
-          {allDays.length} days of data · {num(summary.orderCount)} orders total
-        </span>
+        {summary && (
+          <span className="text-xs text-gray-400">
+            {allDays.length} days of data · {num(summary.orderCount)} orders total
+          </span>
+        )}
       </div>
 
-      {/* KPI row */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+      {/* KPI row — Shopify only */}
+      {summary && <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         <KPI label="Net Revenue"     value={$(summary.netSales)}       sub={`Gross ${$(summary.grossSales)}`} accent="text-violet-700" />
         <KPI label="Orders"          value={num(summary.orderCount)}    sub={`AOV ${$(summary.avgOrderValue)}`} />
         <KPI label="Customers"       value={num(summary.totalCustomers)} sub={`${pct(summary.returningCustomerRate)} returning`} />
         <KPI label="Avg Spend / Cust" value={$(summary.avgCustomerSpend)} sub={`${num(summary.subscribedCustomers)} subscribed`} />
         <KPI label="Conv. Rate"      value={pct(summary.conversionRate)} sub={`${num(summary.totalSessions)} sessions`} />
-      </div>
+      </div>}
 
-      {/* Revenue / Sessions chart */}
-      <div className="bg-white rounded-xl border border-gray-200 p-5">
+      {/* Revenue / Sessions chart — Shopify only */}
+      {summary && <div className="bg-white rounded-xl border border-gray-200 p-5">
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <div className="flex items-center gap-3">
             <h2 className="text-sm font-semibold text-gray-900">Performance Over Time</h2>
@@ -172,10 +180,10 @@ export default function BrandDashboard() {
             />
           </AreaChart>
         </ResponsiveContainer>
-      </div>
+      </div>}
 
-      {/* Products + Customers */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      {/* Products + Customers — Shopify only */}
+      {summary && <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
         <div className="bg-white rounded-xl border border-gray-200 p-5">
           <h2 className="text-sm font-semibold text-gray-900 mb-1">Top Products</h2>
@@ -241,7 +249,73 @@ export default function BrandDashboard() {
           </div>
         </div>
 
-      </div>
+      </div>}
+
+      {/* ── Email Performance ──────────────────────────────────────────────── */}
+      {(email.campaigns || email.workflows) && (() => {
+        const activeData = emailTab === 'campaigns' ? email.campaigns : email.workflows
+        if (!activeData) return null
+        return (
+          <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-4">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <h2 className="text-sm font-semibold text-gray-900">Email Performance</h2>
+              <div className="flex rounded-md border border-gray-200 overflow-hidden text-xs">
+                {email.campaigns && (
+                  <button onClick={() => setEmailTab('campaigns')}
+                    className={`px-3 py-1 transition-colors ${emailTab === 'campaigns' ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-50'}`}>
+                    Campaigns
+                  </button>
+                )}
+                {email.workflows && (
+                  <button onClick={() => setEmailTab('workflows')}
+                    className={`px-3 py-1 transition-colors ${emailTab === 'workflows' ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-50'}`}>
+                    Workflows
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Email KPIs */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <KPI label="Email Revenue"  value={$(activeData.totalRevenue)}  accent="text-violet-700" />
+              <KPI label="Email Orders"   value={num(activeData.totalOrders)}  sub={`${num(activeData.totalSent)} sent`} />
+              <KPI label="Avg Open Rate"  value={pct(activeData.avgOpenRate)}  />
+              <KPI label="Avg Click Rate" value={pct(activeData.avgClickRate)} />
+            </div>
+
+            {/* Top items table */}
+            <div>
+              <p className="text-xs text-gray-400 mb-2">Top by revenue</p>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="border-b border-gray-100 text-gray-400 text-left">
+                      <th className="pb-2 pr-4 font-medium">Name</th>
+                      <th className="pb-2 pr-4 font-medium text-right">Revenue</th>
+                      <th className="pb-2 pr-4 font-medium text-right">Orders</th>
+                      <th className="pb-2 pr-4 font-medium text-right">Sent</th>
+                      <th className="pb-2 pr-4 font-medium text-right">Open %</th>
+                      <th className="pb-2 font-medium text-right">Click %</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {activeData.top.map((item, i) => (
+                      <tr key={i} className="border-b border-gray-50 hover:bg-gray-50">
+                        <td className="py-2 pr-4 text-gray-700 max-w-xs truncate" title={item.name}>{item.name}</td>
+                        <td className="py-2 pr-4 text-right font-medium text-violet-700">{$(item.revenue)}</td>
+                        <td className="py-2 pr-4 text-right text-gray-600">{num(item.orders)}</td>
+                        <td className="py-2 pr-4 text-right text-gray-400">{num(item.sent)}</td>
+                        <td className="py-2 pr-4 text-right text-gray-600">{pct(item.openRate)}</td>
+                        <td className="py-2 text-right text-gray-600">{pct(item.clickRate)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
     </div>
   )
 }
