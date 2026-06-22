@@ -8411,14 +8411,5 @@
       "count": 25
     }
   ],
-  "analysis": {
-    "digest": "Vanilla, musk, and amber are driving retail volume across all three tracked weeks in June, with body mist formats — led by Sol de Janeiro Cheirosa 62 and eos Cashmere — holding the top Amazon spots with no meaningful turnover. Indie releases now make up the largest share of new launches (225 of 644), and search momentum shifted decisively toward prestige French houses through the month, with Hermès, Dior, Saint Laurent, and Valentino all climbing in weekly search scores. There is a widening gap between what is selling (affordable, sweet-leaning body products) and what is launching (independent niche and Arabian) — a positioning opening for mid-tier designer brands to bridge format and price tier.",
-    "signals": [
-      "vanilla & musk dominate",
-      "indie launches surge",
-      "prestige search rising",
-      "body mist leads retail",
-      "warm-sweet notes"
-    ]
-  }
+  "analysis": null
 }
