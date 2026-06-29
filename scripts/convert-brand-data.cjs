@@ -8,7 +8,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const INPUT_DIR = 'C:\\Users\\puma0\\OneDrive\\Documentos\\SB DATA\\CODE\\Processed'
+const INPUT_DIR = 'C:\\Users\\puma0\\OneDrive\\Documentos\\SB DATA\\Processed'
 const OUTPUT_FILE = path.join(__dirname, '..', 'src', 'data', 'brandData.json')
 
 // ── CSV parser ────────────────────────────────────────────────────────────────

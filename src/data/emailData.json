@@ -6,15 +6,14 @@
     "MEB",
     "MM",
     "MT",
-    "PC",
     "TA"
   ],
   "email": {
     "AL": {
       "campaigns": {
-        "totalRevenue": 1046488,
-        "totalOrders": 9428,
-        "totalSent": 1390861,
+        "totalRevenue": 1055002.45,
+        "totalOrders": 9523,
+        "totalSent": 1412883,
         "avgOpenRate": 45.4,
         "avgClickRate": 3.8,
         "top": [
@@ -105,7 +104,7 @@
             "sent": 20808,
             "revenue": 34531.39,
             "orders": 301,
-            "openRate": 43.8,
+            "openRate": 43.9,
             "clickRate": 4.5
           },
           {
@@ -121,11 +120,11 @@
         ]
       },
       "workflows": {
-        "totalRevenue": 77828.85,
-        "totalOrders": 721,
-        "totalSent": 41479,
-        "avgOpenRate": 63.2,
-        "avgClickRate": 8.3,
+        "totalRevenue": 109448.46,
+        "totalOrders": 993,
+        "totalSent": 55454,
+        "avgOpenRate": 58.8,
+        "avgClickRate": 7.4,
         "top": [
           {
             "name": "Early Access",
@@ -137,35 +136,35 @@
           },
           {
             "name": "Abandoned Checkout",
-            "sent": 6221,
-            "revenue": 16526.33,
-            "orders": 163,
-            "openRate": 54.4,
-            "clickRate": 6.8
+            "sent": 12347,
+            "revenue": 30447.38,
+            "orders": 289,
+            "openRate": 45.6,
+            "clickRate": 5.6
           },
           {
             "name": "Abandoned Cart",
-            "sent": 4808,
-            "revenue": 10205.68,
-            "orders": 83,
-            "openRate": 57.6,
-            "clickRate": 5.2
+            "sent": 7381,
+            "revenue": 18489.17,
+            "orders": 143,
+            "openRate": 57.3,
+            "clickRate": 5.6
           },
           {
             "name": "Product Abandonment",
-            "sent": 12132,
-            "revenue": 10150.94,
-            "orders": 106,
-            "openRate": 56.4,
-            "clickRate": 4.8
+            "sent": 15327,
+            "revenue": 15623.27,
+            "orders": 164,
+            "openRate": 55.9,
+            "clickRate": 4.7
           },
           {
             "name": "Welcome Series x 3",
-            "sent": 5818,
-            "revenue": 9005.99,
-            "orders": 92,
-            "openRate": 47.4,
-            "clickRate": 4.7
+            "sent": 7899,
+            "revenue": 12948.73,
+            "orders": 120,
+            "openRate": 47.5,
+            "clickRate": 4.8
           },
           {
             "name": "Welcome",
@@ -180,10 +179,10 @@
     },
     "BP": {
       "campaigns": {
-        "totalRevenue": 26868.29,
-        "totalOrders": 337,
-        "totalSent": 1178942,
-        "avgOpenRate": 40.1,
+        "totalRevenue": 25121.26,
+        "totalOrders": 306,
+        "totalSent": 1093539,
+        "avgOpenRate": 40.8,
         "avgClickRate": 0.4,
         "top": [
           {
@@ -263,18 +262,8 @@
             "sent": 5218,
             "revenue": 494.31,
             "orders": 3,
-            "openRate": 73.7,
+            "openRate": 73.6,
             "clickRate": 0.7
-          },
-          {
-            "name": "Summer Sale — Sundress Season",
-            "type": "Email",
-            "date": "06/04/2026",
-            "sent": 9479,
-            "revenue": 447.22,
-            "orders": 8,
-            "openRate": 36.2,
-            "clickRate": 0.4
           },
           {
             "name": "BTS of the launch party",
@@ -285,39 +274,49 @@
             "orders": 3,
             "openRate": 68.1,
             "clickRate": 1.2
+          },
+          {
+            "name": "Anniversary SMS 1 ",
+            "type": "SMS",
+            "date": "09/24/2025",
+            "sent": 796,
+            "revenue": 432.29,
+            "orders": 7,
+            "openRate": 0,
+            "clickRate": 10.3
           }
         ]
       },
       "workflows": {
-        "totalRevenue": 9257.83,
-        "totalOrders": 125,
-        "totalSent": 25808,
-        "avgOpenRate": 44,
-        "avgClickRate": 4.7,
+        "totalRevenue": 11404.09,
+        "totalOrders": 157,
+        "totalSent": 33381,
+        "avgOpenRate": 38.8,
+        "avgClickRate": 4,
         "top": [
           {
-            "name": "Abandoned Checkout 10% + SMS {Updated 5/6/2025}",
-            "sent": 5806,
-            "revenue": 2716.39,
-            "orders": 31,
-            "openRate": 37.7,
-            "clickRate": 2.4
+            "name": "NEW: Welcome Email {Updated 4/17/25}",
+            "sent": 4913,
+            "revenue": 3698.72,
+            "orders": 57,
+            "openRate": 28.8,
+            "clickRate": 2.3
           },
           {
-            "name": "NEW: Welcome Email {Updated 4/17/25}",
-            "sent": 3000,
-            "revenue": 2582.41,
-            "orders": 39,
-            "openRate": 36.3,
-            "clickRate": 2.1
+            "name": "Abandoned Checkout 10% + SMS {Updated 5/6/2025}",
+            "sent": 7783,
+            "revenue": 3100.75,
+            "orders": 38,
+            "openRate": 32.6,
+            "clickRate": 2.3
           },
           {
             "name": "Product Abandonment",
-            "sent": 5475,
-            "revenue": 992.17,
-            "orders": 15,
-            "openRate": 49.6,
-            "clickRate": 14.6
+            "sent": 7212,
+            "revenue": 1055.43,
+            "orders": 16,
+            "openRate": 43.6,
+            "clickRate": 11.5
           },
           {
             "name": "Abandoned Checkout",
@@ -336,6 +335,22 @@
             "clickRate": 1.3
           },
           {
+            "name": "Abandoned Checkout + SMS {Updated 2/11/26}",
+            "sent": 821,
+            "revenue": 490.81,
+            "orders": 5,
+            "openRate": 18,
+            "clickRate": 1.6
+          },
+          {
+            "name": "Review Request (15% with discount)",
+            "sent": 2603,
+            "revenue": 437.33,
+            "orders": 9,
+            "openRate": 47.5,
+            "clickRate": 1.2
+          },
+          {
             "name": "OLD: Abandoned Cart w/ SMS + 10%",
             "sent": 1002,
             "revenue": 416.68,
@@ -344,20 +359,12 @@
             "clickRate": 3.5
           },
           {
-            "name": "Review Request (15% with discount)",
-            "sent": 1879,
-            "revenue": 382.3,
-            "orders": 7,
-            "openRate": 48.4,
-            "clickRate": 1.6
-          },
-          {
-            "name": "March-2026  NEW:Product Abandonment",
-            "sent": 397,
-            "revenue": 218.4,
+            "name": "NEW: Abandoned Cart {Updated 4/22/24}",
+            "sent": 745,
+            "revenue": 337.63,
             "orders": 4,
-            "openRate": 29.7,
-            "clickRate": 7.1
+            "openRate": 36,
+            "clickRate": 0.8
           },
           {
             "name": "Abandoned Cart",
@@ -366,36 +373,18 @@
             "orders": 2,
             "openRate": 46.6,
             "clickRate": 2.4
-          },
-          {
-            "name": "NEW: Abandoned Cart {Updated 4/22/24}",
-            "sent": 335,
-            "revenue": 81.42,
-            "orders": 1,
-            "openRate": 47.5,
-            "clickRate": 0.9
           }
         ]
       }
     },
     "IC": {
       "campaigns": {
-        "totalRevenue": 3365.14,
-        "totalOrders": 87,
-        "totalSent": 304191,
-        "avgOpenRate": 25.8,
+        "totalRevenue": 2996.72,
+        "totalOrders": 79,
+        "totalSent": 285012,
+        "avgOpenRate": 26.8,
         "avgClickRate": 0.4,
         "top": [
-          {
-            "name": "Memorial Day sale 4- May 21 st",
-            "type": "Email",
-            "date": "05/21/2026",
-            "sent": 1498,
-            "revenue": 159.83,
-            "orders": 2,
-            "openRate": 16.2,
-            "clickRate": 0.3
-          },
           {
             "name": "BLACK FRIDAY 6- DIC 1",
             "type": "Email",
@@ -443,7 +432,7 @@
             "sent": 1501,
             "revenue": 119.08,
             "orders": 3,
-            "openRate": 16.1,
+            "openRate": 15.9,
             "clickRate": 0.7
           },
           {
@@ -473,7 +462,7 @@
             "sent": 1315,
             "revenue": 92.09,
             "orders": 3,
-            "openRate": 29.7,
+            "openRate": 29.6,
             "clickRate": 0.2
           },
           {
@@ -485,16 +474,34 @@
             "orders": 2,
             "openRate": 29.1,
             "clickRate": 0.5
+          },
+          {
+            "name": "Why Your Skin Feels Tight After Washing",
+            "type": "Email",
+            "date": "07/22/2025",
+            "sent": 1207,
+            "revenue": 87.48,
+            "orders": 3,
+            "openRate": 28.9,
+            "clickRate": 0.3
           }
         ]
       },
       "workflows": {
-        "totalRevenue": 1054.21,
-        "totalOrders": 28,
-        "totalSent": 11728,
-        "avgOpenRate": 14.2,
-        "avgClickRate": 0.5,
+        "totalRevenue": 1292.57,
+        "totalOrders": 46,
+        "totalSent": 25455,
+        "avgOpenRate": 23.2,
+        "avgClickRate": 0.6,
         "top": [
+          {
+            "name": "Welcome new subscriber",
+            "sent": 14947,
+            "revenue": 407.89,
+            "orders": 11,
+            "openRate": 30.9,
+            "clickRate": 0.6
+          },
           {
             "name": "Welcome",
             "sent": 246,
@@ -504,75 +511,51 @@
             "clickRate": 4.1
           },
           {
-            "name": "Welcome new subscriber",
-            "sent": 3540,
-            "revenue": 311.88,
-            "orders": 8,
-            "openRate": 19.8,
-            "clickRate": 0.6
+            "name": "Abandoned Cart",
+            "sent": 373,
+            "revenue": 266.48,
+            "orders": 5,
+            "openRate": 56.6,
+            "clickRate": 1.6
           },
           {
             "name": "Abandoned Checkout",
-            "sent": 7331,
-            "revenue": 207.01,
-            "orders": 5,
-            "openRate": 7.6,
+            "sent": 9297,
+            "revenue": 247.16,
+            "orders": 6,
+            "openRate": 7.4,
             "clickRate": 0.3
           },
           {
-            "name": "Abandoned Cart",
-            "sent": 237,
-            "revenue": 164.28,
-            "orders": 4,
-            "openRate": 50.2,
-            "clickRate": 1.7
-          },
-          {
             "name": "Welcome new customer",
-            "sent": 200,
+            "sent": 316,
             "revenue": 32.2,
             "orders": 1,
-            "openRate": 58,
+            "openRate": 54.1,
             "clickRate": 0
           },
           {
             "name": "$7 OFF for people who tried Mini Mist",
-            "sent": 17,
+            "sent": 21,
             "revenue": 0,
             "orders": 0,
-            "openRate": 35.3,
+            "openRate": 33.3,
             "clickRate": 0
           },
           {
             "name": "Order Followup",
-            "sent": 56,
+            "sent": 254,
             "revenue": 0,
-            "orders": 0,
-            "openRate": 48.2,
-            "clickRate": 1.8
-          },
-          {
-            "name": "March-2026 NEW: Welcome new customer",
-            "sent": 18,
-            "revenue": 0,
-            "orders": 0,
-            "openRate": 38.9,
-            "clickRate": 0
+            "orders": 13,
+            "openRate": 41.7,
+            "clickRate": 1.6
           },
           {
             "name": "March- 2026 NEW: Welcome new subscriber",
-            "sent": 56,
+            "sent": 1,
             "revenue": 0,
             "orders": 0,
-            "openRate": 48.2,
-            "clickRate": 0
-          },
-          {
-            "name": "March-2026 NEW: Abandoned Checkout",
-            "sent": 27,
-            "revenue": 0,
-            "orders": 0,
-            "openRate": 48.1,
+            "openRate": 100,
             "clickRate": 0
           }
         ]
@@ -583,7 +566,7 @@
         "totalRevenue": 3834.93,
         "totalOrders": 76,
         "totalSent": 181716,
-        "avgOpenRate": 26.3,
+        "avgOpenRate": 26.4,
         "avgClickRate": 0.5,
         "top": [
           {
@@ -613,7 +596,7 @@
             "sent": 10905,
             "revenue": 368.61,
             "orders": 9,
-            "openRate": 23.7,
+            "openRate": 23.8,
             "clickRate": 1
           },
           {
@@ -633,7 +616,7 @@
             "sent": 4369,
             "revenue": 202,
             "orders": 4,
-            "openRate": 51,
+            "openRate": 51.1,
             "clickRate": 0.9
           },
           {
@@ -643,7 +626,7 @@
             "sent": 4405,
             "revenue": 165.29,
             "orders": 3,
-            "openRate": 54.3,
+            "openRate": 54.5,
             "clickRate": 1
           },
           {
@@ -653,7 +636,7 @@
             "sent": 10881,
             "revenue": 157.61,
             "orders": 3,
-            "openRate": 20.8,
+            "openRate": 20.9,
             "clickRate": 0.6
           },
           {
@@ -663,7 +646,7 @@
             "sent": 10855,
             "revenue": 143.79,
             "orders": 3,
-            "openRate": 20.7,
+            "openRate": 20.8,
             "clickRate": 0.3
           },
           {
@@ -673,7 +656,7 @@
             "sent": 1011,
             "revenue": 141.73,
             "orders": 2,
-            "openRate": 57.2,
+            "openRate": 57.3,
             "clickRate": 1.2
           },
           {
@@ -683,7 +666,7 @@
             "sent": 2528,
             "revenue": 141.64,
             "orders": 3,
-            "openRate": 37.1,
+            "openRate": 37.2,
             "clickRate": 0.4
           }
         ]
@@ -740,10 +723,10 @@
     },
     "MM": {
       "campaigns": {
-        "totalRevenue": 27755.16,
-        "totalOrders": 293,
-        "totalSent": 319125,
-        "avgOpenRate": 21.9,
+        "totalRevenue": 27280.34,
+        "totalOrders": 287,
+        "totalSent": 288276,
+        "avgOpenRate": 23,
         "avgClickRate": 0.5,
         "top": [
           {
@@ -849,19 +832,35 @@
         ]
       },
       "workflows": {
-        "totalRevenue": 10618.99,
-        "totalOrders": 113,
-        "totalSent": 9363,
-        "avgOpenRate": 41.8,
-        "avgClickRate": 4.3,
+        "totalRevenue": 11132.19,
+        "totalOrders": 119,
+        "totalSent": 16112,
+        "avgOpenRate": 26.7,
+        "avgClickRate": 2.6,
         "top": [
           {
             "name": "Welcome Email + SMS",
-            "sent": 3587,
-            "revenue": 4832.92,
-            "orders": 51,
-            "openRate": 31.5,
-            "clickRate": 4.1
+            "sent": 3855,
+            "revenue": 4746.98,
+            "orders": 50,
+            "openRate": 30.2,
+            "clickRate": 3.8
+          },
+          {
+            "name": "Product Abandonment",
+            "sent": 1836,
+            "revenue": 1248,
+            "orders": 13,
+            "openRate": 54.3,
+            "clickRate": 3.2
+          },
+          {
+            "name": "NEW: Abandoned Checkout (w/ SMS)",
+            "sent": 7395,
+            "revenue": 1238.78,
+            "orders": 15,
+            "openRate": 8.5,
+            "clickRate": 1.1
           },
           {
             "name": "NB - Thank You For Signing Up",
@@ -870,22 +869,6 @@
             "orders": 12,
             "openRate": 61.7,
             "clickRate": 4.9
-          },
-          {
-            "name": "Product Abandonment",
-            "sent": 1577,
-            "revenue": 1073.65,
-            "orders": 12,
-            "openRate": 55.7,
-            "clickRate": 3.5
-          },
-          {
-            "name": "NEW: Abandoned Checkout (w/ SMS)",
-            "sent": 1534,
-            "revenue": 839.29,
-            "orders": 10,
-            "openRate": 31.4,
-            "clickRate": 4.8
           },
           {
             "name": "Abandoned Checkout - OLD VERSION",
@@ -905,11 +888,11 @@
           },
           {
             "name": "NEW: Abandoned Cart w/ SMS",
-            "sent": 833,
-            "revenue": 532.42,
-            "orders": 5,
-            "openRate": 37,
-            "clickRate": 5.4
+            "sent": 1152,
+            "revenue": 688.86,
+            "orders": 7,
+            "openRate": 34.6,
+            "clickRate": 4.3
           },
           {
             "name": "OLD: Abandoned Cart - no discount at end",
@@ -928,22 +911,22 @@
             "clickRate": 7
           },
           {
-            "name": "Abandoned Checkout Naked Beauty 15%",
-            "sent": 43,
-            "revenue": 131.14,
-            "orders": 1,
-            "openRate": 25.6,
-            "clickRate": 4.7
+            "name": "Welcome",
+            "sent": 1,
+            "revenue": 0,
+            "orders": 0,
+            "openRate": 100,
+            "clickRate": 0
           }
         ]
       }
     },
     "MT": {
       "campaigns": {
-        "totalRevenue": 24903.16,
-        "totalOrders": 402,
-        "totalSent": 2640714,
-        "avgOpenRate": 23.2,
+        "totalRevenue": 22770.6,
+        "totalOrders": 352,
+        "totalSent": 2427816,
+        "avgOpenRate": 22.8,
         "avgClickRate": 0.3,
         "top": [
           {
@@ -965,16 +948,6 @@
             "orders": 9,
             "openRate": 15.4,
             "clickRate": 0.4
-          },
-          {
-            "name": "Second Self – Final Chapter Sale",
-            "type": "Email",
-            "date": "06/02/2026",
-            "sent": 11142,
-            "revenue": 539.74,
-            "orders": 15,
-            "openRate": 33,
-            "clickRate": 1.3
           },
           {
             "name": "Valentine's Day 4- Jan 30th",
@@ -1045,30 +1018,40 @@
             "orders": 5,
             "openRate": 15.7,
             "clickRate": 0.2
+          },
+          {
+            "name": "Holiday Restock #1- Feb 20th",
+            "type": "Email",
+            "date": "02/20/2026",
+            "sent": 22386,
+            "revenue": 356.16,
+            "orders": 8,
+            "openRate": 14,
+            "clickRate": 0.3
           }
         ]
       },
       "workflows": {
-        "totalRevenue": 7902.2,
-        "totalOrders": 109,
-        "totalSent": 14403,
-        "avgOpenRate": 29.2,
-        "avgClickRate": 2.8,
+        "totalRevenue": 9416.82,
+        "totalOrders": 132,
+        "totalSent": 20199,
+        "avgOpenRate": 24.2,
+        "avgClickRate": 2.1,
         "top": [
           {
             "name": "Abandoned Checkout",
-            "sent": 7349,
-            "revenue": 4337.75,
-            "orders": 59,
-            "openRate": 22.7,
-            "clickRate": 2.3
+            "sent": 13452,
+            "revenue": 5492.72,
+            "orders": 78,
+            "openRate": 19.3,
+            "clickRate": 1.8
           },
           {
             "name": "OLD: Welcome Email",
-            "sent": 3338,
+            "sent": 3341,
             "revenue": 1261.83,
             "orders": 20,
-            "openRate": 28.7,
+            "openRate": 28.6,
             "clickRate": 2.3
           },
           {
@@ -1081,194 +1064,58 @@
           },
           {
             "name": "Abandoned Cart",
-            "sent": 1864,
-            "revenue": 665.03,
-            "orders": 9,
-            "openRate": 40.4,
-            "clickRate": 2.8
-          },
-          {
-            "name": "March-2026 NEW:Abandoned Checkout",
-            "sent": 1156,
-            "revenue": 248.63,
-            "orders": 6,
-            "openRate": 40.1,
-            "clickRate": 4.2
+            "sent": 2477,
+            "revenue": 901.27,
+            "orders": 13,
+            "openRate": 40,
+            "clickRate": 2.9
           },
           {
             "name": "NEW: Welcome Email",
-            "sent": 35,
-            "revenue": 187.2,
-            "orders": 2,
-            "openRate": 34.3,
-            "clickRate": 14.3
+            "sent": 175,
+            "revenue": 536.84,
+            "orders": 8,
+            "openRate": 21.7,
+            "clickRate": 4.6
+          },
+          {
+            "name": "OLD: Abandoned Checkout",
+            "sent": 234,
+            "revenue": 61.82,
+            "orders": 1,
+            "openRate": 38,
+            "clickRate": 2.6
+          },
+          {
+            "name": "OLD: Abandoned Cart",
+            "sent": 48,
+            "revenue": 0,
+            "orders": 0,
+            "openRate": 29.2,
+            "clickRate": 2.1
           },
           {
             "name": "March-2026 NEW: Welcome Email",
-            "sent": 23,
-            "revenue": 39.42,
-            "orders": 1,
-            "openRate": 8.7,
-            "clickRate": 13
+            "sent": 3,
+            "revenue": 0,
+            "orders": 0,
+            "openRate": 33.3,
+            "clickRate": 0
+          },
+          {
+            "name": "March-2026 NEW:Abandoned Checkout",
+            "sent": 80,
+            "revenue": 0,
+            "orders": 0,
+            "openRate": 16.3,
+            "clickRate": 0
           },
           {
             "name": "March-2026 NEW: Abandoned Cart",
-            "sent": 276,
+            "sent": 27,
             "revenue": 0,
             "orders": 0,
-            "openRate": 62.7,
-            "clickRate": 6.2
-          }
-        ]
-      }
-    },
-    "PC": {
-      "campaigns": {
-        "totalRevenue": 2483.05,
-        "totalOrders": 36,
-        "totalSent": 150574,
-        "avgOpenRate": 9.6,
-        "avgClickRate": 0.7,
-        "top": [
-          {
-            "name": "Email 7: Spring scents (ellori, willow, and maris)",
-            "type": "Email",
-            "date": "05/08/2026",
-            "sent": 2015,
-            "revenue": 244.16,
-            "orders": 4,
-            "openRate": 68.1,
-            "clickRate": 1.8
-          },
-          {
-            "name": "Booster of: Email 3: Maris/Willow",
-            "type": "Email",
-            "date": "04/24/2026",
-            "sent": 144,
-            "revenue": 226.44,
-            "orders": 1,
-            "openRate": 8.3,
-            "clickRate": 0.7
-          },
-          {
-            "name": "Email 1D: Auden Lueur is Back (2+ orders 2025/2026 - 4)",
-            "type": "Email",
-            "date": "04/24/2026",
-            "sent": 486,
-            "revenue": 199.95,
-            "orders": 1,
-            "openRate": 17.1,
-            "clickRate": 3.1
-          },
-          {
-            "name": "HUE BYE HAYLEY 1- MEMORIAL DAY SALE",
-            "type": "Email",
-            "date": "05/29/2026",
-            "sent": 9549,
-            "revenue": 174.66,
-            "orders": 5,
-            "openRate": 6.6,
-            "clickRate": 0.6
-          },
-          {
-            "name": "Booster of: Email 4: Spring Bundle  (Sending to 1-4)",
-            "type": "Email",
-            "date": "05/03/2026",
-            "sent": 3226,
-            "revenue": 154.47,
-            "orders": 1,
-            "openRate": 2,
-            "clickRate": 0.2
-          },
-          {
-            "name": "Email 1: Auden Lueur is Back (no purchase - 4th segment)",
-            "type": "Email",
-            "date": "05/09/2026",
-            "sent": 3265,
-            "revenue": 133.32,
-            "orders": 1,
-            "openRate": 11,
-            "clickRate": 0.8
-          },
-          {
-            "name": "Email 7: Spring scents (ellori, willow, and maris) - active people who didn't open the first time on may 8th",
-            "type": "Email",
-            "date": "05/11/2026",
-            "sent": 1455,
-            "revenue": 132.47,
-            "orders": 2,
-            "openRate": 54,
-            "clickRate": 1.2
-          },
-          {
-            "name": "Email 1F: Auden Lueur is Back (2+ orders 2025/2026 - 6)",
-            "type": "Email",
-            "date": "04/26/2026",
-            "sent": 536,
-            "revenue": 116.97,
-            "orders": 1,
-            "openRate": 19.2,
-            "clickRate": 1.7
-          },
-          {
-            "name": "Email 4: Spring Bundle  (Sent to 2+ orders 2025/2026 - 1)",
-            "type": "Email",
-            "date": "04/23/2026",
-            "sent": 419,
-            "revenue": 116.47,
-            "orders": 1,
-            "openRate": 16.2,
-            "clickRate": 1.4
-          },
-          {
-            "name": "Booster of: Email 2: Ellori (Purchased at least 1 time Groups 1-4)",
-            "type": "Email",
-            "date": "05/07/2026",
-            "sent": 3347,
-            "revenue": 110.98,
-            "orders": 1,
-            "openRate": 2,
-            "clickRate": 0.1
-          }
-        ]
-      },
-      "workflows": {
-        "totalRevenue": 63.99,
-        "totalOrders": 1,
-        "totalSent": 426,
-        "avgOpenRate": 45.1,
-        "avgClickRate": 4.2,
-        "top": [
-          {
-            "name": "Abandoned Checkout + 10% Off",
-            "sent": 115,
-            "revenue": 63.99,
-            "orders": 1,
-            "openRate": 46.1,
-            "clickRate": 0.9
-          },
-          {
-            "name": "Abandoned Cart + 10% Off",
-            "sent": 76,
-            "revenue": 0,
-            "orders": 0,
-            "openRate": 47.4,
-            "clickRate": 18.4
-          },
-          {
-            "name": "Product Abandonment",
-            "sent": 226,
-            "revenue": 0,
-            "orders": 0,
-            "openRate": 45.1,
-            "clickRate": 1.3
-          },
-          {
-            "name": "Welcome",
-            "sent": 9,
-            "revenue": 0,
-            "orders": 0,
-            "openRate": 11.1,
+            "openRate": 37,
             "clickRate": 0
           }
         ]
@@ -1276,11 +1123,11 @@
     },
     "TA": {
       "campaigns": {
-        "totalRevenue": 10879.45,
-        "totalOrders": 89,
-        "totalSent": 53192,
-        "avgOpenRate": 40.1,
-        "avgClickRate": 1.6,
+        "totalRevenue": 10484.32,
+        "totalOrders": 85,
+        "totalSent": 51283,
+        "avgOpenRate": 40.8,
+        "avgClickRate": 1.5,
         "top": [
           {
             "name": "4th of july sale 1",
@@ -1385,43 +1232,43 @@
         ]
       },
       "workflows": {
-        "totalRevenue": 527.28,
-        "totalOrders": 4,
-        "totalSent": 190,
-        "avgOpenRate": 44.7,
-        "avgClickRate": 5.8,
+        "totalRevenue": 1966.73,
+        "totalOrders": 15,
+        "totalSent": 1798,
+        "avgOpenRate": 25.4,
+        "avgClickRate": 3.3,
         "top": [
           {
             "name": "Abandoned Checkout",
-            "sent": 78,
-            "revenue": 459.49,
-            "orders": 3,
-            "openRate": 55.1,
-            "clickRate": 9
-          },
-          {
-            "name": "Welcome",
-            "sent": 31,
-            "revenue": 67.79,
-            "orders": 1,
-            "openRate": 32.3,
-            "clickRate": 6.5
+            "sent": 321,
+            "revenue": 806.69,
+            "orders": 5,
+            "openRate": 66.4,
+            "clickRate": 4.4
           },
           {
             "name": "Abandoned Cart",
-            "sent": 78,
-            "revenue": 0,
-            "orders": 0,
-            "openRate": 41,
-            "clickRate": 2.6
+            "sent": 312,
+            "revenue": 645.76,
+            "orders": 4,
+            "openRate": 54.5,
+            "clickRate": 5.4
+          },
+          {
+            "name": "Welcome",
+            "sent": 1156,
+            "revenue": 514.28,
+            "orders": 6,
+            "openRate": 5.9,
+            "clickRate": 2.4
           },
           {
             "name": "Product Abandonment",
-            "sent": 3,
+            "sent": 9,
             "revenue": 0,
             "orders": 0,
-            "openRate": 0,
-            "clickRate": 0
+            "openRate": 66.7,
+            "clickRate": 11.1
           }
         ]
       }
